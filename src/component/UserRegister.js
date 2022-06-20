@@ -22,7 +22,7 @@ const initialState = {
   passwordError: "",
 };
 
-export default class AuthForm extends React.Component {
+export default class UserRegister extends React.Component {
   state = initialState;
 
   validate = () => {
