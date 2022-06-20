@@ -13,11 +13,46 @@ const styles = {
   },
 };
 
+const initialState = {
+  username: "",
+  email: "",
+  password: "",
+  usernameError: "",
+  emailError: "",
+  passwordError: "",
+};
+
 export default class AuthForm extends React.Component {
-  state = {
-    username: "",
-    email: "",
-    password: "",
+  state = initialState;
+
+  validate = () => {
+    let usernameError = "";
+    let emailError = "";
+    let passwordError = "";
+
+    if (!this.state.username.length) {
+      usernameError = "Username required";
+    }
+
+    if (!this.state.email.includes("@")) {
+      emailError = "Invalid Email";
+    }
+
+    if (!this.state.password.length < 5) {
+      passwordError = "Password must be more than 5";
+    }
+
+    if (usernameError || emailError || passwordError) {
+      this.setState({
+        usernameError,
+        emailError,
+        passwordError,
+      });
+
+      return false;
+    }
+
+    return true;
   };
 
   handleChange = (event, fieldName) => {
@@ -28,7 +63,10 @@ export default class AuthForm extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state);
+    const isValid = this.validate();
+    if (isValid) {
+      console.log(this.state);
+    }
   };
 
   render() {
@@ -42,18 +80,21 @@ export default class AuthForm extends React.Component {
             type="text"
             placeholder="Enter username"
           />
+          {this.state.usernameError}
           <input
             style={styles.inputField}
             onChange={(event) => this.handleChange(event, "email")}
             type="text"
             placeholder="Enter email address"
           />
+          {this.state.emailError}
           <input
             style={styles.inputField}
             onChange={(event) => this.handleChange(event, "password")}
             type="password"
             placeholder="******************"
           />
+          {this.state.passwordError}
           <button style={styles.inputField} type="submit">
             Sign up
           </button>
