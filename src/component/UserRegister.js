@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const styles = {
   formField: {
@@ -13,7 +13,7 @@ const styles = {
   },
 };
 
-const initialState = {
+let initialState = {
   username: "",
   email: "",
   password: "",
@@ -22,84 +22,89 @@ const initialState = {
   passwordError: "",
 };
 
-export default class UserRegister extends React.Component {
-  state = initialState;
+const UserRegister = () => {
+  const [fieldName, setFieldName] = useState({
+    initialState,
+  });
 
-  validate = () => {
+  const validate = () => {
     let usernameError = "";
     let emailError = "";
     let passwordError = "";
 
-    if (!this.state.username.length) {
-      usernameError = "Username required";
+    if (!fieldName.username) {
+      usernameError = "Not Empty";
     }
 
-    if (!this.state.email.includes("@")) {
-      emailError = "Invalid Email";
-    }
-
-    if (!this.state.password.length < 5) {
-      passwordError = "Password must be more than 5";
+    if (!fieldName.password) {
+      passwordError = "Not Empty";
     }
 
     if (usernameError || emailError || passwordError) {
-      this.setState({
+      setFieldName({
         usernameError,
         emailError,
         passwordError,
       });
-
       return false;
     }
-
     return true;
   };
 
-  handleChange = (event, fieldName) => {
-    this.setState({
-      [fieldName]: event.target.value,
+  const handleChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    fieldName[name] = value;
+    setFieldName(fieldName);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const isValid = validate();
+    if (isValid) {
+      console.log(fieldName);
+    }
+    setFieldName({
+      initialState,
     });
   };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const isValid = this.validate();
-    if (isValid) {
-      console.log(this.state);
-    }
-  };
+  return (
+    <div className="formWrap">
+      <form style={styles.formField} onSubmit={handleSubmit}>
+        <input
+          name="username"
+          style={styles.inputField}
+          onChange={handleChange}
+          type="text"
+          placeholder="Enter username"
+          required
+        />
+        {fieldName.usernameError}
+        <input
+          name="email"
+          style={styles.inputField}
+          onChange={handleChange}
+          type="email"
+          placeholder="Enter email address"
+          required
+        />
+        {fieldName.emailError}
+        <input
+          name="password"
+          style={styles.inputField}
+          onChange={handleChange}
+          type="password"
+          placeholder="******************"
+          required
+        />
+        {fieldName.passwordError}
+        <button style={styles.inputField} type="submit">
+          Sign up
+        </button>
+      </form>
+    </div>
+  );
+};
 
-  render() {
-    return (
-      <div className="formWrap">
-        <form style={styles.formField} onSubmit={this.handleSubmit}>
-          <input
-            style={styles.inputField}
-            onChange={(event) => this.handleChange(event, "username")}
-            value={this.state.username}
-            type="text"
-            placeholder="Enter username"
-          />
-          {this.state.usernameError}
-          <input
-            style={styles.inputField}
-            onChange={(event) => this.handleChange(event, "email")}
-            type="text"
-            placeholder="Enter email address"
-          />
-          {this.state.emailError}
-          <input
-            style={styles.inputField}
-            onChange={(event) => this.handleChange(event, "password")}
-            type="password"
-            placeholder="******************"
-          />
-          {this.state.passwordError}
-          <button style={styles.inputField} type="submit">
-            Sign up
-          </button>
-        </form>
-      </div>
-    );
-  }
-}
+export default UserRegister;

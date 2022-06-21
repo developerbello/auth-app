@@ -1,9 +1,9 @@
-import AuthForm from "./component/UserRegister";
+import UserRegister from "./component/UserRegister";
 
 function App() {
   return (
     <div className="App">
-      <AuthForm />
+      <UserRegister />
     </div>
   );
 }
