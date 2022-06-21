@@ -1,5 +1,7 @@
 # Auth-app
 
+[App link](https://developerbello.github.io/auth-app/)
+
 `Auth-app` is a form validation application.
 
 To run the App, do the following,
