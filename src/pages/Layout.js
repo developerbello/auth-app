@@ -1,12 +1,17 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { Avatar } from "@mui/material";
-import { deepOrange } from "@mui/material/colors";
+import { lightGreen } from "@mui/material/colors";
 
 export default function Layout() {
   return (
     <div>
-      <Avatar sx={{ bgcolor: deepOrange[500] }}>BI</Avatar>
+      <Avatar
+        sx={{ bgcolor: lightGreen[500] }}
+        style={{ textAlign: "center", margin: "30px auto" }}
+      >
+        BI
+      </Avatar>
       <Outlet />
     </div>
   );
