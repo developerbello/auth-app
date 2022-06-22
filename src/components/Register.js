@@ -4,14 +4,23 @@ import { useNavigate } from "react-router-dom";
 
 const styles = {
   formField: {
-    margin: "20px auto 0",
-    width: "300px",
+    backgroundColor: "#fff",
+    padding: "50px 30px",
+    position: "relative",
+    overflow: "hidden",
+    borderRadius: "3px",
+    border: "solid 1px #ccc",
+    margin: "50px auto 8px",
+    width: "400px",
     display: "flex",
     flexDirection: "column",
+    lineHeight: "",
   },
   inputField: {
-    padding: "13px 10px",
-    marginBottom: "20px",
+    marginBottom: "15px",
+  },
+  Button: {
+    height: "45px",
   },
 };
 
@@ -19,9 +28,6 @@ let initialState = {
   username: "",
   email: "",
   password: "",
-  usernameError: "",
-  emailError: "",
-  passwordError: "",
 };
 
 const Register = () => {
@@ -30,30 +36,6 @@ const Register = () => {
   });
 
   const navigate = useNavigate();
-
-  const validate = () => {
-    let usernameError = "";
-    let emailError = "";
-    let passwordError = "";
-
-    if (!fieldName.username) {
-      usernameError = "Not Empty";
-    }
-
-    if (!fieldName.password) {
-      passwordError = "Not Empty";
-    }
-
-    if (usernameError || emailError || passwordError) {
-      setFieldName({
-        usernameError,
-        emailError,
-        passwordError,
-      });
-      return false;
-    }
-    return true;
-  };
 
   const handleChange = (e) => {
     let name = e.target.name;
@@ -64,10 +46,7 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const isValid = validate();
-    if (isValid) {
-      console.log(fieldName);
-    }
+    console.log(fieldName);
     navigate("/welcome");
   };
 
@@ -82,6 +61,7 @@ const Register = () => {
           style={styles.inputField}
           onChange={handleChange}
           placeholder="username"
+          required
         />
         {fieldName.usernameError}
         <TextField
@@ -106,10 +86,15 @@ const Register = () => {
           onChange={handleChange}
           type="password"
           placeholder="******************"
-          required
+          required="password"
         />
         {fieldName.passwordError}
-        <Button type="submit" variant="contained" color="success">
+        <Button
+          style={styles.Button}
+          type="submit"
+          variant="contained"
+          color="success"
+        >
           Register
         </Button>
       </form>
